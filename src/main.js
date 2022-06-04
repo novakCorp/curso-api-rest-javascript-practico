@@ -21,7 +21,36 @@ async function getTrendingMoviesPreview() {
         movieContainer.appendChild(movieImg);
         trendingPreviewMoviesContainer.appendChild(movieContainer);
     });
+}
 
+
+async function getCategoriesPreview() {
+    const res = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=' + API_KEY);
+    const data = await res.json();
+
+    const categories = data.genres;
+    console.log('CATEGORIES');
+    console.log(data);
+    console.log(categories);
+
+    categories.forEach((category) => {
+
+        // Getting the child inside the section to render the categories from the api request
+        const previewCategoriesContainer = document.querySelector('#categoriesPreview .categoriesPreview-list');
+
+        const categoryContainer = document.createElement('div');
+        categoryContainer.classList.add('category-container');
+
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.classList.add('category-title');
+        categoryTitle.setAttribute('id', 'id' + category.id);
+        const categoryTitleText = document.createTextNode(category.name);
+
+        categoryTitle.appendChild(categoryTitleText);
+        categoryContainer.appendChild(categoryTitle);
+        previewCategoriesContainer.appendChild(categoryContainer);
+    });
 }
 
 getTrendingMoviesPreview();
+getCategoriesPreview();
